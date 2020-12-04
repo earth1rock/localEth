@@ -24,8 +24,7 @@ namespace WindowsFormsApp1
             var account = new ManagedAccount(senderAddress, password);
             var web3 = new Web3(account);
 
-            var sendTransactin = await web3.Eth.GetEtherTransferService().TransferEtherAndWaitForReceiptAsync(receiver, value);
-            MessageBox.Show("123"+sendTransactin.TransactionHash.ToString());
+            var sendTransactin = web3.Eth.GetEtherTransferService().TransferEtherAndWaitForReceiptAsync(receiver, value);
         }
 
         private void button1_Click(object sender, EventArgs e)
