@@ -20,25 +20,22 @@ namespace WindowsFormsApp1
         }
         static async Task transaction(string senderAddress, string password, string receiver, decimal value)
         {
-
+            //совершение транзакции с указанными данными
             var account = new ManagedAccount(senderAddress, password);
             var web3 = new Web3(account);
-
             var sendTransactin = web3.Eth.GetEtherTransferService().TransferEtherAndWaitForReceiptAsync(receiver, value);
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
+            //проверка заполненных данных
             if ((textBox1.Text != "")&&(textBox2.Text != "")&&(textBox3.Text != "")&&(textBox4.Text != ""))
             {
-                 transaction(textBox1.Text.Trim(), textBox2.Text.Trim(), textBox3.Text.Trim(), Convert.ToDecimal(textBox4.Text.Trim()));
-               
+                 transaction(textBox1.Text.Trim(), textBox2.Text.Trim(), textBox3.Text.Trim(), Convert.ToDecimal(textBox4.Text.Trim()));              
             }
             else
             {
                 MessageBox.Show("Заполните входные поля!", "Ошибка!");
             }
-
         }
     }
 }

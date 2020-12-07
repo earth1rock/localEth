@@ -18,6 +18,7 @@ using Nethereum;
 using Nethereum.Web3.Accounts.Managed;
 using Nethereum.RPC.Eth;
 
+
 namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
@@ -36,8 +37,7 @@ namespace WindowsFormsApp1
             //geth --mine --http --http.corsdomain "*" --http.api eth,net,web3,personal,web3 --networkid 15 --datadir /path/to/data/dir --allow-insecure-unlock
             process.StartInfo.Arguments = @"/k geth --mine --http --http.corsdomain ""*"" --http.api eth,net,web3,personal,web3 --networkid 15 --datadir /path/to/data/dir --allow-insecure-unlock";
             //geth attach \\.\pipe\geth.ipc
-            process.Start();
-
+            process.Start();         
         }
 
         //api
@@ -77,16 +77,9 @@ namespace WindowsFormsApp1
 
             var sendTransactin = web3.Eth.GetEtherTransferService().TransferEtherAndWaitForReceiptAsync("0x200228e4c9d4f1b282ea59f443f201c0e401ad33", 1m);
 
-       //     var listTransaction = web3.Eth.Transactions.GetTransactionByHash.SendRequestAsync("0x200228e4c9d4f1b282ea59f443f201c0e401ad33");
-        //    MessageBox.Show(listTransaction.ToString());
-
-        }
-        private void button2_Click(object sender, EventArgs e)
-        {
-            GetAccountBalance();
-
         }
 
+        //обновление списка аккаунтов при старте программы
         async private void Form1_Load(object sender, EventArgs e)
         {
             var web3 = new Nethereum.Web3.Web3();
@@ -95,24 +88,29 @@ namespace WindowsFormsApp1
             var accountList = await web3.Eth.Accounts.SendRequestAsync();
 
             int count = 1;
-            foreach (string listAcc in accountList)
+            string result = "";
+            for (int i=1;i<accountList.Length;i++)
             {
-                var balance = await web3.Eth.GetBalance.SendRequestAsync(listAcc);
-                textBox4.Text += $"[ {count++} ]    {listAcc} = {Math.Round(Web3.Convert.FromWei(balance.Value), 3)} ETH {Environment.NewLine}";
+                var balance = await web3.Eth.GetBalance.SendRequestAsync(accountList[i]);
+                result += $"[ {count++} ]    {accountList[i]} = {Math.Round(Web3.Convert.FromWei(balance.Value), 3)} ETH {Environment.NewLine}";
             }
+            textBox4.Text = result;
         }
 
+        //открытие формы для регистрации аккаунтов
         private void button3_Click(object sender, EventArgs e)
         {
             Form2 register = new Form2(); 
             register.Show();
         }
 
+        //обновление списка аккаунтов
         private void button4_Click(object sender, EventArgs e)
         {
             Form1_Load(sender,e);
         }
 
+        //открытие формы для совершения транзакций
         private void button5_Click(object sender, EventArgs e)
         {
             Form3 transaction = new Form3();
