@@ -89,7 +89,7 @@ namespace WindowsFormsApp1
 
             int count = 1;
             string result = "";
-            for (int i=1;i<accountList.Length;i++)
+            for (int i=0;i<accountList.Length;i++)
             {
                 var balance = await web3.Eth.GetBalance.SendRequestAsync(accountList[i]);
                 result += $"[ {count++} ]    {accountList[i]} = {Math.Round(Web3.Convert.FromWei(balance.Value), 3)} ETH {Environment.NewLine}";
